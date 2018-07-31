@@ -7,4 +7,3 @@ pip*
 share/*
 src/.vscode/*
 *.pyc
-requirements.txt
