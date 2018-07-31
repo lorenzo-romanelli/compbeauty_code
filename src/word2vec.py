@@ -49,16 +49,24 @@ class SQLiteCorpus(object):
         return text
 
 if __name__ == "__main__":
-    if not os.path.isfile("./word2vec.model"):
-        corpus = SQLiteCorpus("./database.sqlite")  # a memory-friendly iterator
+    path = os.path.dirname(os.path.realpath(__file__))
+    databasedir = path + "/db/"
+    modelsdir = path + "/models/"
+    
+    # Train simple W2V model
+    modelname = "word2vec.model"
+    if not os.path.isfile(modelsdir + modelname):
+        corpus = SQLiteCorpus(databasedir + "database.sqlite")  # a memory-friendly iterator
         model = Word2Vec(corpus)
-        model.save("word2vec.model")
+        model.save(modelsdir + modelname)
     else:
-        print("w2v model already exists!")
+        print("W2V model already exists!")
 
-    if not os.path.isfile("./word2vec_bigrams.model"):
-        corpus = SQLiteCorpus("./database.sqlite", bigrams=True)
+    # Train W2V model using bigrams
+    modelname = "word2vec_bigrams.model"
+    if not os.path.isfile(modelsdir + modelname):
+        corpus = SQLiteCorpus(databasedir + "database.sqlite", bigrams=True)
         model = Word2Vec(corpus)
-        model.save("./word2vec_bigrams.model")
+        model.save(modelsdir + modelname)
     else:
-        print("w2v bigrams model already exists!")
+        print("W2V bigrams model already exists!")
