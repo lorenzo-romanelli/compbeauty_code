@@ -10,12 +10,13 @@ share/*
 src/*.zip
 src/.vscode/*
 src/database.sqlite
+src/db/database.sqlite
 
 .vscode/*
 
 *.model
 *.pyc
 *.sh
+*.sqlite
 
-database.sqlite
 lib64
