@@ -52,12 +52,13 @@ if __name__ == "__main__":
     path = os.path.dirname(os.path.realpath(__file__))
     databasedir = path + "/db/"
     modelsdir = path + "/models/"
+    print(path)
     
     # Train simple W2V model
     modelname = "word2vec.model"
     if not os.path.isfile(modelsdir + modelname):
         corpus = SQLiteCorpus(databasedir + "database.sqlite")  # a memory-friendly iterator
-        model = Word2Vec(corpus)
+        model = Word2Vec(corpus, workers=4)
         model.save(modelsdir + modelname)
     else:
         print("W2V model already exists!")
@@ -66,7 +67,7 @@ if __name__ == "__main__":
     modelname = "word2vec_bigrams.model"
     if not os.path.isfile(modelsdir + modelname):
         corpus = SQLiteCorpus(databasedir + "database.sqlite", bigrams=True)
-        model = Word2Vec(corpus)
+        model = Word2Vec(corpus, workers=4)
         model.save(modelsdir + modelname)
     else:
         print("W2V bigrams model already exists!")
