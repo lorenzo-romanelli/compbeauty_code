@@ -3,5 +3,6 @@ include/*
 lib/*
 local/*
 share/*
+.vscode/*
 pip-selfcheck.json
 *.pyc

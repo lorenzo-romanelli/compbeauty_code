@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import re
+import sqlite3
+from nltk.stem.porter import PorterStemmer
+
 '''
 Util functions.
 
@@ -8,7 +12,6 @@ http://stackoverflow.com/questions/19790188/expanding-english-language-contracti
 All credits go to alko and arturomp @ stack overflow.
 '''
 
-import re
 cList = {
     "ain't": "am not",
     "aren't": "are not",
@@ -151,3 +154,68 @@ def replaceChars(text, c_re=replacements_re):
     def replace(match):
         return replaceList[match.group(0)]
     return c_re.sub(replace, text)
+
+def stemDocument(document):
+    '''
+    Stem a document.
+        <document> should be a list of tokens.
+    '''
+    return [stemWord(word) for word in document]
+
+def stemWord(word):
+    '''
+    Stem a word using Porter stemmer algorithm.
+    '''
+    porter_stemmer = PorterStemmer()
+    return porter_stemmer.stem(word)
+
+def getReviews(limit=None, random=False):
+    '''
+    Get reviews from the db (optionally limiting and randomizing).
+    '''
+    db = "database.sqlite"
+    conn = sqlite3.connect(db)
+    c = conn.cursor()
+    query = "SELECT * FROM content"
+    query += " ORDER BY RANDOM()" if random else ""
+    query += " LIMIT {}".format(limit) if limit else ""
+    reviews_list = c.execute(query)
+    return reviews_list
+
+'''
+Taken from https://stackoverflow.com/questions/4576077/python-split-text-on-sentences
+'''
+caps = "([A-Z])"
+digits = "([0-9])"
+prefixes = "(Mr|St|Mrs|Ms|Dr)[.]"
+suffixes = "(Inc|Ltd|Jr|Sr|Co)"
+starters = "(Mr|Mrs|Ms|Dr|He\s|She\s|It\s|They\s|Their\s|Our\s|We\s|But\s|However\s|That\s|This\s|Wherever)"
+acronyms = "([A-Z][.][A-Z][.](?:[A-Z][.])?)"
+websites = "[.](com|net|org|io|gov)"
+
+def splitIntoSentences(text):
+    text = " " + text + "  "
+    text = text.replace("\n"," ")
+    text = re.sub(prefixes,"\\1<prd>",text)
+    text = re.sub(websites,"<prd>\\1",text)
+    if "Ph.D" in text: text = text.replace("Ph.D.","Ph<prd>D<prd>")
+    text = re.sub("\s" + caps + "[.] "," \\1<prd> ",text)
+    text = re.sub(acronyms+" "+starters,"\\1<stop> \\2",text)
+    text = re.sub(caps + "[.]" + caps + "[.]" + caps + "[.]","\\1<prd>\\2<prd>\\3<prd>",text)
+    text = re.sub(caps + "[.]" + caps + "[.]","\\1<prd>\\2<prd>",text)
+    text = re.sub(" "+suffixes+"[.] "+starters," \\1<stop> \\2",text)
+    text = re.sub(" "+suffixes+"[.]"," \\1<prd>",text)
+    text = re.sub(" " + caps + "[.]"," \\1<prd>",text)
+    text = re.sub(digits + "[.]" + digits,"\\1<prd>\\2",text)
+    if "”" in text: text = text.replace(".”","”.")
+    if "\"" in text: text = text.replace(".\"","\".")
+    if "!" in text: text = text.replace("!\"","\"!")
+    if "?" in text: text = text.replace("?\"","\"?")
+    text = text.replace(".",".<stop>")
+    text = text.replace("?","?<stop>")
+    text = text.replace("!","!<stop>")
+    text = text.replace("<prd>",".")
+    sentences = text.split("<stop>")
+    sentences = sentences[:-1]
+    sentences = [s.strip() for s in sentences]
+    return sentences
