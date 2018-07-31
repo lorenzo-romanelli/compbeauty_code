@@ -1,8 +1,10 @@
 bin/*
 include/*
 lib/*
+lib64/
 local/*
+pip*
 share/*
 .vscode/*
-pip-selfcheck.json
 *.pyc
+requirements.txt
