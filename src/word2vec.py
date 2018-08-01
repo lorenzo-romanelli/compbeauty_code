@@ -60,6 +60,7 @@ if __name__ == "__main__":
         corpus = SQLiteCorpus(databasedir + "database.sqlite")  # a memory-friendly iterator
         model = Word2Vec(corpus, workers=4)
         model.save(modelsdir + modelname)
+        print("W2V model trained.")
     else:
         print("W2V model already exists!")
 
@@ -69,5 +70,6 @@ if __name__ == "__main__":
         corpus = SQLiteCorpus(databasedir + "database.sqlite", bigrams=True)
         model = Word2Vec(corpus, workers=4)
         model.save(modelsdir + modelname)
+        print("W2V bigrams model trained.")
     else:
         print("W2V bigrams model already exists!")
