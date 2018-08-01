@@ -10,8 +10,6 @@ share/*
 src/*.zip
 src/.vscode/*
 src/database.sqlite
-src/db/database.sqlite
-src/models/*
 
 .vscode/*
 
