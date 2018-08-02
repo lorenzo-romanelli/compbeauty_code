@@ -1,10 +1,10 @@
 import sqlite3
-import os.path
+import environment
 
-path = os.path.dirname(os.path.realpath(__file__))
-databasedir = path + "/db/"
-databasepath = databasedir + "database.sqlite"
-modelsdir = path + "/models/"
+path = environment.PATH
+databasedir = environment.DB_DIR
+databasepath = environment.DB_PATH
+modelsdir = environment.MODELS_DIR
 
 def getGenres():
     with sqlite3.connect(databasepath) as conn:
@@ -20,9 +20,6 @@ def getGenres():
         return genres
 
 if __name__ == "__main__":
-    path = os.path.dirname(os.path.realpath(__file__))
-    databasedir = path + "/db/"
-    modelsdir = path + "/models/"
     genres = getGenres()
     for genre in genres:
         print(genre)

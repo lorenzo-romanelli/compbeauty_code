@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os.path
+import environment
 import sqlite3
 import utils
 from gensim.models import Word2Vec
@@ -49,15 +50,16 @@ class SQLiteCorpus(object):
         return text
 
 if __name__ == "__main__":
-    path = os.path.dirname(os.path.realpath(__file__))
-    databasedir = path + "/db/"
-    modelsdir = path + "/models/"
+    path = environment.PATH
+    databasedir = environment.DB_DIR
+    databasepath = environment.DB_PATH
+    modelsdir = environment.MODELS_DIR
     print(path)
     
     # Train simple W2V model
     modelname = "word2vec.model"
     if not os.path.isfile(modelsdir + modelname):
-        corpus = SQLiteCorpus(databasedir + "database.sqlite")  # a memory-friendly iterator
+        corpus = SQLiteCorpus(databasepath)  # a memory-friendly iterator
         model = Word2Vec(corpus, workers=4)
         model.save(modelsdir + modelname)
         print("W2V model trained.")
@@ -67,7 +69,7 @@ if __name__ == "__main__":
     # Train W2V model using bigrams
     modelname = "word2vec_bigrams.model"
     if not os.path.isfile(modelsdir + modelname):
-        corpus = SQLiteCorpus(databasedir + "database.sqlite", bigrams=True)
+        corpus = SQLiteCorpus(databasepath, bigrams=True)
         model = Word2Vec(corpus, workers=4)
         model.save(modelsdir + modelname)
         print("W2V bigrams model trained.")
