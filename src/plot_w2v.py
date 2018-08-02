@@ -55,7 +55,7 @@ if __name__ == "__main__":
         modelname = modelsdir + model["name"]
         try:
             if model["binary"]:
-                w2v_model = KeyedVectors.load_word2vec_format(modelname, binary=True)
+                w2v_model = KeyedVectors.load_word2vec_format(modelname, binary=True, limit=500000)
             else:
                 w2v_model = KeyedVectors.load(modelname)
         except:
