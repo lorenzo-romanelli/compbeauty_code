@@ -12,6 +12,7 @@ src/.vscode/*
 src/database.sqlite
 src/db/database.sqlite
 src/models/*.model
+src/models/GoogleNews*
 
 .vscode/*
 
