@@ -1,4 +1,5 @@
 import environment
+from datetime import datetime
 from gensim.models import Word2Vec
 from sklearn.manifold import TSNE
 from matplotlib import pyplot as plt
@@ -22,7 +23,8 @@ def tsnePlot(vectors):
     plt.ylim(y_coords.min() + 0.00005, y_coords.max() + 0.00005)
     for label, x, y in zip(labels, x_coords, y_coords):
         plt.annotate(label, xy=(x, y), xytext=(0, 0), textcoords='offset points')
-    plt.show()
+    #plt.show()
+    plt.savefig(environment.IMG_DIR + datetime.now().strftime("%y%m%d-%H%M%S") + ".pdf")
 
 def getWordVectors(model, words):
     vectors = [(word[0], model.wv[word[0]]) for word in words]
@@ -39,6 +41,6 @@ def getVectorsOfSimilarWords(model, word, N=10):
 
 if __name__ == "__main__":
     modelsdir = environment.MODELS_DIR
-    modelname = "word2vec_bigrams.model"
+    modelname = "word2vec_bigrams.model.gz"
     model = Word2Vec.load(modelsdir + modelname)
-    tsnePlot(getVectorsOfSimilarWords(model, "beauty", N=100))
+    tsnePlot(getVectorsOfSimilarWords(model, "beauty", N=500))
