@@ -57,20 +57,20 @@ if __name__ == "__main__":
     print(path)
     
     # Train simple W2V model
-    modelname = "word2vec.model"
+    modelname = "word2vec_sg.model"
     if not os.path.isfile(modelsdir + modelname):
         corpus = SQLiteCorpus(databasepath)  # a memory-friendly iterator
-        model = Word2Vec(corpus, workers=4)
+        model = Word2Vec(corpus, sg=1, workers=4)
         model.save(modelsdir + modelname)
         print("W2V model trained.")
     else:
         print("W2V model already exists!")
 
     # Train W2V model using bigrams
-    modelname = "word2vec_bigrams.model"
+    modelname = "word2vec_sg_bigrams.model"
     if not os.path.isfile(modelsdir + modelname):
         corpus = SQLiteCorpus(databasepath, bigrams=True)
-        model = Word2Vec(corpus, workers=4)
+        model = Word2Vec(corpus, sg=1, workers=4)
         model.save(modelsdir + modelname)
         print("W2V bigrams model trained.")
     else:
