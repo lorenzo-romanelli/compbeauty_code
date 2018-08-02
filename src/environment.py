@@ -9,7 +9,9 @@ IMG_DIR = PATH + "/img/"
 
 # List of words to analyze
 WORDS_LIST = [
-    "beauty", "beautiful", "beautifully", "ugliness", "ugly"
+    "beauty", "beautiful", "beautifully", 
+    "ugliness", "ugly",
+    "aesthetic", "aesthetics"
 ]
 
 # Models
