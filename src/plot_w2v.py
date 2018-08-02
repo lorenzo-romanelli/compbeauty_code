@@ -1,6 +1,6 @@
 import environment
 from datetime import datetime
-from gensim.models import Word2Vec
+from gensim.models import KeyedVectors
 from sklearn.manifold import TSNE
 from matplotlib import pyplot as plt
 
@@ -26,9 +26,10 @@ def tsnePlot(vectors, model):
     
     imgdir = environment.IMG_DIR
     lab = labels[0]
+    src = model["source"]
     mth = model["method"]
-    now = datetime.now().strftime("%y%m%d-%H%M%S")
-    out = imgdir + lab + "_" + mth + "_" + now
+    now = datetime.now().strftime("%y%m%d-%H%M")
+    out = imgdir + lab + "_" + src + "_" + mth + "_" + now
     plt.savefig(out + ".pdf")
 
 
@@ -48,12 +49,21 @@ def getVectorsOfSimilarWords(model, word, N=10):
 
 if __name__ == "__main__":
     modelsdir = environment.MODELS_DIR
-    #modelname = "word2vec_bigrams.model.gz"
-    #model = Word2Vec.load(modelsdir + modelname)
     for model in environment.MODELS:
         if not model["bigrams"]: continue
-        w2v_model = Word2Vec.load(modelsdir + model["name"])
+        
+        modelname = modelsdir + model["name"]
+        try:
+            if model["binary"]:
+                w2v_model = KeyedVectors.load_word2vec_format(modelname, binary=True)
+            else:
+                w2v_model = KeyedVectors.load(modelname)
+        except:
+            print("Couldn't load the model {}.".format(model["name"]))
+            continue
+        
         for word in environment.WORDS_LIST:
             vecs = getVectorsOfSimilarWords(w2v_model, word, N=500)
             tsnePlot(vecs, model)
             print("Plot for word \"{}\" done.".format(word))
+        del(w2v_model)

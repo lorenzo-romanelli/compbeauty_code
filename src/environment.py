@@ -21,27 +21,39 @@ MODELS = [
         "bigrams": True,
         "word2vec": True,
         "source": "pitchfork",
-        "method": "CBOW"
+        "method": "CBOW",
+        "binary": False
     },
     {
         "name": "word2vec.model.gz",
         "bigrams": False,
         "word2vec": True,
         "source": "pitchfork",
-        "method": "CBOW"
+        "method": "CBOW",
+        "binary": False
     },
     {
         "name": "word2vec_sg_bigrams.model.gz",
         "bigrams": True,
         "word2vec": True,
         "source": "pitchfork",
-        "method": "skip-gram"
+        "method": "skip-gram",
+        "binary": False
     },
     {
         "name": "word2vec_sg.model.gz",
         "bigrams": False,
         "word2vec": True,
         "source": "pitchfork",
-        "method": "skip-gram"
+        "method": "skip-gram",
+        "binary": False
+    },
+    {
+        "name": "GoogleNews.bin.gz",
+        "bigrams": True,
+        "word2vec": True,
+        "source": "google",
+        "method": "skip-gram",
+        "binary": True
     }
 ]
