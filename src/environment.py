@@ -15,31 +15,31 @@ WORDS_LIST = [
 # Models
 MODELS = [
     {
-        name: "word2vec_bigrams.model.gz",
-        bigrams: True,
-        word2vec: True,
-        source: "pitchfork",
-        method: "CBOW"
+        "name": "word2vec_bigrams.model.gz",
+        "bigrams": True,
+        "word2vec": True,
+        "source": "pitchfork",
+        "method": "CBOW"
     },
     {
-        name: "word2vec.model.gz",
-        bigrams: False,
-        word2vec: True,
-        source: "pitchfork",
-        method: "CBOW"
+        "name": "word2vec.model.gz",
+        "bigrams": False,
+        "word2vec": True,
+        "source": "pitchfork",
+        "method": "CBOW"
     },
     {
-        name: "word2vec_sg_bigrams.model.gz",
-        bigrams: True,
-        word2vec: True,
-        source: "pitchfork",
-        method: "skip-gram"
+        "name": "word2vec_sg_bigrams.model.gz",
+        "bigrams": True,
+        "word2vec": True,
+        "source": "pitchfork",
+        "method": "skip-gram"
     },
     {
-        name: "word2vec_sg.model.gz",
-        bigrams: False,
-        word2vec: True,
-        source: "pitchfork",
-        method: "skip-gram"
+        "name": "word2vec_sg.model.gz",
+        "bigrams": False,
+        "word2vec": True,
+        "source": "pitchfork",
+        "method": "skip-gram"
     }
 ]
