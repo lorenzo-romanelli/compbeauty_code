@@ -8,7 +8,8 @@ def cut(modelpath, outpath, nitems):
 if __name__ == "__main__":
     modelsdir = environment.MODELS_DIR
     modelname = "GoogleNews_full.bin.gz"
-    out = "GoogleNews.bin.gz"
+    out = "bin.GoogleNews"
     limit = 500000
     cut(modelsdir + modelname, modelsdir + out, limit)
     print("Model cut.")
+    
