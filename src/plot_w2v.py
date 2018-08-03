@@ -25,11 +25,12 @@ def tsnePlot(vectors, model):
         plt.annotate(label, xy=(x, y), xytext=(0, 0), textcoords='offset points')
     
     imgdir = environment.IMG_DIR
+    plotsdir = imgdir + "embeddings/"
     lab = labels[0]
     src = model["source"]
     mth = model["method"]
     now = datetime.now().strftime("%y%m%d-%H%M")
-    out = imgdir + lab + "_" + src + "_" + mth + "_" + now
+    out = plotsdir + lab + "_" + src + "_" + mth + "_" + now
     plt.savefig(out + ".pdf")
 
 
