@@ -6,6 +6,7 @@ DB_DIR = PATH + "/db/"
 DB_PATH = DB_DIR + "database.sqlite"
 MODELS_DIR = PATH + "/models/"
 IMG_DIR = PATH + "/img/"
+TXT_DIR = PATH + "/text/"
 
 # List of words to analyze
 WORDS_LIST = [
