@@ -9,7 +9,6 @@ def tsnePlot(vectors, model):
     Plots the word embedding using TSNE dimensionality reduction.
     '''
     labels, tokens = zip(*vectors)
-
     tsne_model = TSNE(n_components=2, random_state=0, metric="cosine", init="random")
     tokens_reduced = tsne_model.fit_transform(tokens)
     
@@ -35,7 +34,7 @@ def tsnePlot(vectors, model):
 
 
 def getWordVectors(model, words):
-    vectors = [(word[0], model.wv[word[0]]) for word in words]
+    vectors = [(word, model.wv[word]) for word in words]
     return vectors
 
 
@@ -44,9 +43,11 @@ def getVectorsOfSimilarWords(model, word, N=10):
     Returns vectors of the N words most similar to the input word.
     '''
     similar = model.wv.similar_by_word(word, topn=N)
+    words = [word[0] for word in similar]
     vectors = getWordVectors(model, similar)
     vectors = [(word, model.wv[word])] + vectors
     return vectors
+
 
 if __name__ == "__main__":
     modelsdir = environment.MODELS_DIR
