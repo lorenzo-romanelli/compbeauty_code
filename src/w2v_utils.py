@@ -17,7 +17,10 @@ def saveSimilarWords(out, target, words):
     with open(out, "wb") as f:
         writer = csv.writer(f, delimiter=",")
         for word in words:
-            writer.writerow(word)
+            w = word[0].encode("utf-8")
+            s = word[1]
+            #print(w.encode("utf-8"))
+            writer.writerow([w, s])
 
 
 if __name__ == "__main__":
@@ -34,7 +37,7 @@ if __name__ == "__main__":
             print("Couldn't load the model {}.".format(name))
             continue
         for word in environment.WORDS_LIST:
-            similar = getSimilarWords(kv_model, word)
+            similar = getSimilarWords(kv_model, word, 500)
             path = environment.TXT_DIR
             out = path + word + "_" + model["source"] + "_" + model["method"] + "_sim.csv"
             saveSimilarWords(out, word, similar)
