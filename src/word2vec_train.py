@@ -3,6 +3,7 @@ import os.path
 import environment
 import sqlite3
 import utils
+from nltk import sent_tokenize, RegexpTokenizer
 from gensim.models import Word2Vec
 from gensim.models.phrases import Phrases, Phraser
 from gensim.utils import tokenize
@@ -17,8 +18,8 @@ class SQLiteCorpus(object):
     def __iter__(self):
         for review in self.getReviews():
             review = self.preprocess(review[0])
-            for sentence in utils.splitIntoSentences(review):
-                unigrams = list(tokenize(sentence))
+            for sentence in self.getSentences(review):
+                unigrams = self.getUnigrams(sentence)
                 yield self.bigrams[unigrams] if self.bigrams else unigrams
     
     def getReviews(self):
@@ -34,13 +35,23 @@ class SQLiteCorpus(object):
             reviews_list = c.execute(query)
         return reviews_list
 
+    def getSentences(self, review):
+        # return utils.splitIntoSentences(review)
+        return sent_tokenize(review)
+
+    def getUnigrams(self, sentence):
+        # return list(tokenize(sentence))
+        tokenizer = RegexpTokenizer(r'\w+')
+        return tokenizer.tokenize(sentence)
+
     def computeBigrams(self):
         reviews = self.getReviews()
         sentences = []
         for review in reviews:
             review = self.preprocess(review[0])
-            sentences += utils.splitIntoSentences(review)
-        phrases = Phrases([tokenize(sentence) for sentence in sentences])
+            sentences += self.getSentences(review)
+        stream = [self.getUnigrams(sentence) for sentence in sentences]
+        phrases = Phrases(stream, min_count=10, scoring="npmi")
         return Phraser(phrases)
 
     def preprocess(self, text):
