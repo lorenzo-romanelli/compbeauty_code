@@ -37,7 +37,7 @@ class SQLiteCorpus(object):
 
     def getSentences(self, review):
         # return utils.splitIntoSentences(review)
-        return sent_tokenize(review)
+        return sent_tokenize(unicode(review, "utf-8"))
 
     def getUnigrams(self, sentence):
         # return list(tokenize(sentence))
