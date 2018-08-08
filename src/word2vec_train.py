@@ -51,7 +51,7 @@ class SQLiteCorpus(object):
             review = self.preprocess(review[0])
             sentences += self.getSentences(review)
         stream = [self.getUnigrams(sentence) for sentence in sentences]
-        phrases = Phrases(stream, min_count=10, scoring="npmi")
+        phrases = Phrases(stream, min_count=10, scoring="npmi", threshold=1)
         return Phraser(phrases)
 
     def preprocess(self, text):
@@ -87,4 +87,4 @@ if __name__ == "__main__":
     if not os.path.isfile(modelsdir + modelname):
         print("W2V bigrams model trained.")
     else:
-        print("W2V bigrams model already exists!")
+        print("W2V bigrams model already exists! Overwritten.")
