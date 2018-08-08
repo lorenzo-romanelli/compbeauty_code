@@ -19,8 +19,9 @@ def main():
     models = environment.MODELS
     word = sys.argv[1]
     source = sys.argv[2]
-    if len(sys.argv) == 4:
-        method = sys.argv[3]
+    N = int(sys.argv[3])
+    if len(sys.argv) == 5:
+        method = sys.argv[4]
     else:
         method = "skip-gram"
     for m in models:
@@ -36,7 +37,6 @@ def main():
     words = [unicode(w[0], "utf8") for w in words]
     vectors = w2v.getWordVectors(model, words)
     print("Loaded vectors for {}.".format(word))
-    N = 25
     clustered = kmeansCluterWords(vectors, N)
     for i in range(N):
         print(i, end=": ")

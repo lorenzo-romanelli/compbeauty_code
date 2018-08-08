@@ -39,7 +39,7 @@ MODELS = [
         "word2vec": True,
         "source": "pitchfork",
         "method": "skip-gram",
-        "binary": False
+        "binary": True
     },
     {
         "name": "word2vec_sg.model.gz",
