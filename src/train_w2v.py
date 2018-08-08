@@ -19,7 +19,7 @@ class SQLiteCorpus(object):
  
     def __iter__(self):
         for review in self.getReviews():
-            review = self.preprocess(review[0])
+            review = self.preprocess(review[0], tolower=self.lower)
             for sentence in self.getSentences(review):
                 unigrams = self.getUnigrams(sentence)
                 yield self.trigrams[self.bigrams[unigrams]]
